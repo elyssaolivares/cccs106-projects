@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>html,body,#map{height:100%;margin:0;padding:0}</style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  // Config placeholders replaced by Python
+  const API_KEY = "__OWM_API_KEY__";
+  const DEFAULT = {lat: __DEFAULT_LAT__, lon: __DEFAULT_LON__, zoom: __DEFAULT_ZOOM__ };
+  const MARKERS = __MARKERS__;
+
+  const map = L.map('map').setView([DEFAULT.lat, DEFAULT.lon], DEFAULT.zoom);
+
+  // Base layer (English-label basemap from Carto/Positron)
+  // This tile set uses English place labels and generally provides consistent English country names.
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+  }).addTo(map);
+
+  // OpenWeatherMap overlays (requires API key)
+  const clouds = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + API_KEY, {opacity:0.6});
+  const precip = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + API_KEY, {opacity:0.6});
+  const temp = L.tileLayer('https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=' + API_KEY, {opacity:0.6});
+
+  const overlays = {"Clouds": clouds, "Precipitation": precip, "Temperature": temp};
+  L.control.layers(null, overlays).addTo(map);
+
+  // Add markers
+  function addMarkers(markers){
+    markers.forEach(function(m){
+      const marker = L.marker([m.lat, m.lon]).addTo(map);
+      if(m.popup) marker.bindPopup(m.popup);
+    });
+  }
+
+  addMarkers(MARKERS);
+
+  // Click to send coords back to app
+  map.on('click', function(e){
+    const payload = {type: 'click', lat: e.latlng.lat, lon: e.latlng.lng};
+    // communicate to Flet via console.log (captured by on_console_message)
+    console.log(JSON.stringify(payload));
+  });
+
+})();
+</script>
+</body>
+</html>
