@@ -19,6 +19,21 @@ Academic Year 2025-2026
 - `week2_labs/personal_info_gui.py` - Enhanced personal information manager
 - `week2_labs/enhanced_calculator.py` - GUI calculator (coming soon)
 
+### Week 3 Labs - User Login App
+- `db_connection.py` - Database connection fot the app using SQLite.
+- `main.py` - Application code using flet framewok.
+
+### Week 4 Labs - Contact Book App
+- `app_logic.py` - Include the app logics to be used.
+- `database.py` - Database connection fot the app using SQLite.
+- `main.py` - The main flet application file.
+
+### Module 6 - Weather App
+- `main.py` - The main flet file.
+- `config.py` - The API keys and network comfigurations file.
+- `test_weather_service.py` - The test code for cmpleteng the requiremnts.
+- `Weather_service.py` - The weather services file.
+  
 ### Module 1 Final Project
 - `module1_final/` - Final integrated project (TBD)
 
