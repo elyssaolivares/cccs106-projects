@@ -58,8 +58,12 @@ Academic Year 2025-2026
 ### Running GUI Applications
 ```cmd
 # Navigate to project directory
-cd week2_labs
+cd /path/
 
 # Run applications
 python hello_flet.py
 python personal_info_gui.py
+bash   flet run user_login
+bash   flet run contact_book_app
+bash   flet run weather_app
+
